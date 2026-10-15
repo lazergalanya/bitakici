@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yönetici Girişi - BiTakıcı</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,500;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-dark: #0f0f0f;
+            --accent-gold: #c5a059;
+            --accent-gold-hover: #b08d46;
+            --bg-color: #faf9f6;
+            --card-bg: #ffffff;
+            --text-main: #2c2c2c;
+            --text-muted: #777777;
+        }
+
+        body { font-family: 'Inter', sans-serif; margin: 0; padding: 0; background-color: var(--bg-color); color: var(--text-main); display: flex; flex-direction: column; min-height: 100vh; }
+        
+        header { background-color: var(--primary-dark); color: #fff; padding: 20px 40px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(197, 160, 89, 0.3); }
+        .logo { font-family: 'Playfair Display', serif; font-size: 1.5em; font-weight: 600; letter-spacing: 2px; color: var(--accent-gold); text-decoration: none; display: flex; align-items: center; gap: 8px; }
+        
+        nav { display: flex; gap: 20px; align-items: center; }
+        nav a { color: #d1d1d1; text-decoration: none; font-size: 0.9em; font-weight: 400; transition: color 0.3s ease; }
+        nav a:hover { color: var(--accent-gold); }
+        .cart-btn { background-color: var(--accent-gold); color: #fff; padding: 8px 16px; border-radius: 30px; font-weight: 500; font-size: 0.85em; }
+
+        .container { max-width: 450px; margin: 80px auto; padding: 40px; background: var(--card-bg); border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.03); border: 1px solid #eee; box-sizing: border-box; width: 100%; text-align: center; }
+        h2 { font-family: 'Playfair Display', serif; color: var(--primary-dark); margin-top: 0; font-size: 2em; font-weight: 500; margin-bottom: 25px; }
+        
+        .form-group { display: flex; flex-direction: column; text-align: left; margin-bottom: 20px; }
+        label { font-weight: 600; font-size: 0.85em; color: var(--primary-dark); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; }
+        input { padding: 14px; border: 1px solid #ddd; border-radius: 6px; font-family: 'Inter', sans-serif; font-size: 1em; outline: none; transition: border-color 0.3s; }
+        input:focus { border-color: var(--accent-gold); }
+        
+        .btn-submit { background-color: var(--primary-dark); color: var(--accent-gold); border: 1px solid var(--accent-gold); padding: 14px; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 1em; width: 100%; transition: all 0.3s; margin-top: 10px; }
+        .btn-submit:hover { background-color: var(--accent-gold); color: #fff; }
+
+        .error-msg { background-color: #fdf2f2; color: #d9534f; padding: 12px; border-radius: 6px; font-size: 0.9em; margin-bottom: 20px; border: 1px solid #f5c6cb; }
+
+        footer { background-color: var(--primary-dark); color: #888; text-align: center; padding: 30px; margin-top: auto; font-size: 0.85em; border-top: 1px solid rgba(255,255,255,0.05); }
+        footer p { margin: 0; letter-spacing: 1px; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="/" class="logo">💎 BİTAKICI</a>
+        <nav>
+            <a href="/">Anasayfa</a>
+            <a href="/urunler">Koleksiyon</a>
+            <a href="/hakkimizda">Hakkımızda</a>
+            <a href="/iletisim">İletişim</a>
+            <a href="/sepet" class="cart-btn">Sepet ({{ toplam_urun }})</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h2>Yönetici Girişi</h2>
+        
+        {% if hata %}
+        <div class="error-msg">{{ hata }}</div>
+        {% endif %}
+
+        <form action="/yonetici-giris" method="POST">
+            <div class="form-group">
+                <label for="sifre">Admin Şifresi</label>
+                <input type="password" id="sifre" name="sifre" required placeholder="Şifrenizi giriniz">
+            </div>
+
+            <button type="submit" class="btn-submit">Giriş Yap</button>
+        </form>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 BiTakıcı & Aksesuar. Tüm hakları saklıdır.</p>
+    </footer>
+</body>
+</html>

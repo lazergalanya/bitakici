@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Koleksiyon - BiTakıcı</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,500;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-dark: #0f0f0f;
+            --accent-gold: #c5a059;
+            --accent-gold-hover: #b08d46;
+            --bg-color: #faf9f6;
+            --card-bg: #ffffff;
+            --text-main: #2c2c2c;
+            --text-muted: #777777;
+        }
+
+        body { font-family: 'Inter', sans-serif; margin: 0; padding: 0; background-color: var(--bg-color); color: var(--text-main); }
+        
+        header { background-color: var(--primary-dark); color: #fff; padding: 20px 40px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(197, 160, 89, 0.3); position: sticky; top: 0; z-index: 100; backdrop-filter: blur(10px); }
+        .logo { font-family: 'Playfair Display', serif; font-size: 1.5em; font-weight: 600; letter-spacing: 2px; color: var(--accent-gold); text-decoration: none; display: flex; align-items: center; gap: 8px; }
+        
+        nav { display: flex; gap: 20px; align-items: center; }
+        nav a { color: #d1d1d1; text-decoration: none; font-size: 0.9em; font-weight: 400; transition: color 0.3s ease; }
+        nav a:hover, nav a.active { color: var(--accent-gold); }
+        .cart-btn { background-color: var(--accent-gold); color: #fff; padding: 8px 16px; border-radius: 30px; font-weight: 500; font-size: 0.85em; transition: background 0.3s ease, transform 0.2s ease; }
+        .cart-btn:hover { background-color: var(--accent-gold-hover); transform: translateY(-2px); color: #fff; }
+
+        .menu-toggle { display: none; background: none; border: none; color: var(--accent-gold); font-size: 1.8em; cursor: pointer; }
+
+        .container { max-width: 1200px; margin: 40px auto; padding: 0 20px; box-sizing: border-box; }
+        .page-header { text-align: center; margin-bottom: 30px; }
+        .page-title { font-family: 'Playfair Display', serif; font-size: 2.4em; color: var(--primary-dark); margin-bottom: 10px; font-weight: 500; letter-spacing: 1px; }
+        .page-subtitle { color: var(--text-muted); font-size: 1em; font-weight: 300; }
+
+        /* Arama ve Sıralama Araç Çubuğu */
+        .toolbar { display: flex; justify-content: space-between; align-items: center; gap: 15px; margin-bottom: 25px; flex-wrap: wrap; background: #fff; padding: 15px 25px; border-radius: 10px; border: 1px solid #eee; box-shadow: 0 5px 15px rgba(0,0,0,0.02); }
+        
+        .search-form { display: flex; gap: 10px; flex-grow: 1; max-width: 400px; }
+        .search-input { flex-grow: 1; padding: 10px 15px; border: 1px solid #ddd; border-radius: 6px; font-family: 'Inter', sans-serif; font-size: 0.9em; outline: none; transition: border-color 0.3s; }
+        .search-input:focus { border-color: var(--accent-gold); }
+        
+        .search-btn { background-color: var(--primary-dark); color: var(--accent-gold); border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: 500; font-size: 0.9em; transition: background 0.3s; }
+        .search-btn:hover { background-color: var(--accent-gold); color: #fff; }
+
+        .sort-container { display: flex; align-items: center; gap: 10px; }
+        .sort-container label { font-size: 0.85em; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
+        .sort-select { padding: 10px 15px; border: 1px solid #ddd; border-radius: 6px; font-family: 'Inter', sans-serif; font-size: 0.9em; background: #fff; outline: none; cursor: pointer; }
+        .sort-select:focus { border-color: var(--accent-gold); }
+
+        .filter-container { display: flex; justify-content: center; gap: 10px; margin-bottom: 40px; flex-wrap: wrap; }
+        .filter-btn { background: #fff; border: 1px solid #e0e0e0; color: var(--text-main); padding: 8px 20px; border-radius: 30px; text-decoration: none; font-size: 0.85em; font-weight: 500; transition: all 0.3s ease; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
+        .filter-btn:hover, .filter-btn.active { background-color: var(--primary-dark); border-color: var(--primary-dark); color: var(--accent-gold); transform: translateY(-2px); }
+
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; justify-content: center; }
+        
+        .card { background: var(--card-bg); border: 1px solid #eee; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.03); transition: transform 0.3s ease, box-shadow 0.3s ease; display: flex; flex-direction: column; }
+        .card:hover { transform: translateY(-8px); box-shadow: 0 15px 35px rgba(197, 160, 89, 0.12); border-color: rgba(197, 160, 89, 0.4); }
+        
+        .card-img-container { height: 220px; background: #f4f1ea; position: relative; overflow: hidden; display: block; }
+        .card-img-container img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease; }
+        .card:hover .card-img-container img { transform: scale(1.05); }
+
+        .badge { position: absolute; top: 15px; left: 15px; background: rgba(15, 15, 15, 0.85); backdrop-filter: blur(5px); color: var(--accent-gold); font-size: 0.65em; padding: 5px 12px; border-radius: 20px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; z-index: 2; }
+
+        .card-body { padding: 20px; display: flex; flex-direction: column; flex-grow: 1; }
+        .card h3 { font-family: 'Playfair Display', serif; color: var(--primary-dark); margin: 0 0 8px 0; font-size: 1.3em; font-weight: 600; }
+        .card h3 a { color: var(--primary-dark); text-decoration: none; transition: color 0.2s; }
+        .card h3 a:hover { color: var(--accent-gold); }
+
+        .price { color: var(--accent-gold); font-size: 1.2em; font-weight: 600; margin: 8px 0 12px 0; }
+        .desc { color: var(--text-muted); font-size: 0.85em; line-height: 1.5; margin-bottom: 20px; flex-grow: 1; }
+        
+        .btn { background-color: var(--primary-dark); color: #fff; border: none; padding: 12px 20px; border-radius: 8px; cursor: pointer; font-weight: 500; font-size: 0.9em; width: 100%; text-decoration: none; display: inline-block; text-align: center; box-sizing: border-box; transition: background 0.3s ease, color 0.3s ease; }
+        .btn:hover { background-color: var(--accent-gold); color: #fff; }
+
+        .no-product { text-align: center; color: var(--text-muted); grid-column: 1 / -1; padding: 50px 0; font-size: 1.1em; }
+
+        footer { background-color: var(--primary-dark); color: #888; text-align: center; padding: 30px; margin-top: 80px; font-size: 0.85em; border-top: 1px solid rgba(255,255,255,0.05); }
+        footer p { margin: 0; letter-spacing: 1px; }
+
+        @media (max-width: 768px) {
+            header { padding: 15px 20px; flex-wrap: wrap; }
+            .menu-toggle { display: block; }
+            nav { display: none; width: 100%; flex-direction: column; align-items: center; gap: 15px; margin-top: 20px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.1); }
+            nav.active { display: flex; }
+            .page-title { font-size: 2em; }
+            .container { margin: 20px auto; padding: 0 15px; }
+            .toolbar { flex-direction: column; align-items: stretch; }
+            .search-form { max-width: 100%; }
+            .sort-container { justify-content: space-between; }
+            .grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="/" class="logo">💎 BİTAKICI</a>
+        <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+        <nav id="nav-menu">
+            <a href="/">Anasayfa</a>
+            <a href="/urunler" class="active">Koleksiyon</a>
+            <a href="/hakkimizda">Hakkımızda</a>
+            <a href="/iletisim">İletişim</a>
+            <a href="/sepet" class="cart-btn">Sepet ({{ toplam_urun }})</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <div class="page-header">
+            <h1 class="page-title">Özel Koleksiyon</h1>
+            <p class="page-subtitle">Zarafetinizi tamamlayacak eşsiz tasarım takılar</p>
+        </div>
+
+        <!-- Arama ve Sıralama Çubuğu -->
+        <div class="toolbar">
+            <form action="/urunler" method="GET" class="search-form">
+                <input type="text" name="q" value="{{ arama_metni }}" placeholder="Ürün veya açıklama ara..." class="search-input">
+                <input type="hidden" name="kategori" value="{{ secilen_kategori }}">
+                <input type="hidden" name="sirala" value="{{ siralama_turu }}">
+                <button type="submit" class="search-btn">Ara</button>
+            </form>
+
+            <div class="sort-container">
+                <label for="sirala">Sırala:</label>
+                <select id="sirala" name="sirala" class="sort-select" onchange="location = this.value;">
+                    <option value="/urunler?kategori={{ secilen_kategori }}&q={{ arama_metni }}&sirala=yeni" {% if siralama_turu == 'yeni' %}selected{% endif %}>En Yeniler</option>
+                    <option value="/urunler?kategori={{ secilen_kategori }}&q={{ arama_metni }}&sirala=artan" {% if siralama_turu == 'artan' %}selected{% endif %}>Fiyat: Düşükten Yükseğe</option>
+                    <option value="/urunler?kategori={{ secilen_kategori }}&q={{ arama_metni }}&sirala=azalan" {% if siralama_turu == 'azalan' %}selected{% endif %}>Fiyat: Yüksekten Düşüğe</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Kategori Filtreleri -->
+        <div class="filter-container">
+            <a href="/urunler?kategori=Tümü&q={{ arama_metni }}&sirala={{ siralama_turu }}" class="filter-btn {% if secilen_kategori == 'Tümü' %}active{% endif %}">Tümü</a>
+            {% for kat in kategoriler %}
+            <a href="/urunler?kategori={{ kat }}&q={{ arama_metni }}&sirala={{ siralama_turu }}" class="filter-btn {% if secilen_kategori == kat %}active{% endif %}">{{ kat }}</a>
+            {% endfor %}
+        </div>
+        
+        <!-- Ürün Listesi Grid -->
+        <div class="grid">
+            {% if urunler %}
+                {% for urun in urunler %}
+                <div class="card">
+                    <a href="/urun/{{ urun['id'] }}" class="card-img-container">
+                        <span class="badge">{{ urun['kategori'] }}</span>
+                        {% if urun['resim'] %}
+                            <img src="{{ url_for('static', filename='uploads/' + urun['resim']) }}" alt="{{ urun['ad'] }}">
+                        {% else %}
+                            <img src="{{ url_for('static', filename='uploads/varsayilan.jpg') }}" alt="{{ urun['ad'] }}">
+                        {% endif %}
+                    </a>
+                    <div class="card-body">
+                        <h3><a href="/urun/{{ urun['id'] }}">{{ urun['ad'] }}</a></h3>
+                        <div class="price">{{ "%.2f"|format(urun['fiyat']) }} TL</div>
+                        <p class="desc">{{ urun['aciklama'] }}</p>
+                        <a href="/sepete-ekle/{{ urun['id'] }}" class="btn">Sepete Ekle</a>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="no-product">
+                    <p>Aradığınız kriterlere uygun ürün bulunamadı.</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 BiTakıcı & Aksesuar. Tüm hakları saklıdır.</p>
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            const menu = document.getElementById('nav-menu');
+            menu.classList.toggle('active');
+        }
+    </script>
+</body>
+</html>

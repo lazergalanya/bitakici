@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alışveriş Sepeti - BiTakıcı</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,500;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-dark: #0f0f0f;
+            --accent-gold: #c5a059;
+            --accent-gold-hover: #b08d46;
+            --bg-color: #faf9f6;
+            --card-bg: #ffffff;
+            --text-main: #2c2c2c;
+            --text-muted: #777777;
+        }
+
+        body { font-family: 'Inter', sans-serif; margin: 0; padding: 0; background-color: var(--bg-color); color: var(--text-main); }
+        
+        header { background-color: var(--primary-dark); color: #fff; padding: 20px 40px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(197, 160, 89, 0.3); position: sticky; top: 0; z-index: 100; backdrop-filter: blur(10px); }
+        .logo { font-family: 'Playfair Display', serif; font-size: 1.5em; font-weight: 600; letter-spacing: 2px; color: var(--accent-gold); text-decoration: none; display: flex; align-items: center; gap: 8px; }
+        
+        nav { display: flex; gap: 20px; align-items: center; }
+        nav a { color: #d1d1d1; text-decoration: none; font-size: 0.9em; font-weight: 400; transition: color 0.3s ease; }
+        nav a:hover, nav a.active { color: var(--accent-gold); }
+        .cart-btn { background-color: var(--accent-gold); color: #fff; padding: 8px 16px; border-radius: 30px; font-weight: 500; font-size: 0.85em; transition: background 0.3s ease, transform 0.2s ease; }
+        .cart-btn:hover { background-color: var(--accent-gold-hover); transform: translateY(-2px); color: #fff; }
+
+        .menu-toggle { display: none; background: none; border: none; color: var(--accent-gold); font-size: 1.8em; cursor: pointer; }
+
+        .container { max-width: 900px; margin: 60px auto; padding: 40px; background: var(--card-bg); border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.03); border: 1px solid #eee; box-sizing: border-box; }
+        h2 { font-family: 'Playfair Display', serif; color: var(--primary-dark); border-bottom: 2px solid var(--accent-gold); padding-bottom: 12px; margin-top: 0; font-size: 2em; font-weight: 500; }
+        
+        table { width: 100%; border-collapse: collapse; margin-top: 25px; }
+        th, td { padding: 15px; text-align: left; border-bottom: 1px solid #eee; }
+        th { background-color: #faf8f3; color: var(--primary-dark); font-weight: 600; font-size: 0.9em; text-transform: uppercase; letter-spacing: 1px; }
+        td { color: var(--text-main); font-size: 0.95em; }
+        
+        .total { font-family: 'Playfair Display', serif; font-size: 1.4em; font-weight: 600; text-align: right; margin-top: 30px; color: var(--primary-dark); }
+        .total span { color: var(--accent-gold); }
+        
+        .actions { margin-top: 40px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; }
+        .btn-danger { background-color: #d9534f; color: white; padding: 12px 25px; text-decoration: none; border-radius: 8px; font-weight: 500; transition: background 0.3s; }
+        .btn-danger:hover { background-color: #c9302c; }
+        
+        .btn-success { background-color: #5cb85c; color: white; padding: 12px 25px; text-decoration: none; border-radius: 8px; font-weight: 500; transition: background 0.3s; display: inline-block; }
+        .btn-success:hover { background-color: #4cae4c; }
+        
+        .delete-btn { color: #d9534f; text-decoration: none; font-size: 1.2em; padding: 6px 12px; border-radius: 6px; display: inline-block; transition: background 0.2s; }
+        .delete-btn:hover { background-color: #fdf2f2; }
+        
+        .empty-cart { text-align: center; color: var(--text-muted); font-size: 1.1em; padding: 50px 0; }
+
+        footer { background-color: var(--primary-dark); color: #888; text-align: center; padding: 30px; margin-top: 100px; font-size: 0.85em; border-top: 1px solid rgba(255,255,255,0.05); }
+        footer p { margin: 0; letter-spacing: 1px; }
+
+        @media (max-width: 768px) {
+            header { padding: 15px 20px; flex-wrap: wrap; }
+            .menu-toggle { display: block; }
+            nav { display: none; width: 100%; flex-direction: column; align-items: center; gap: 15px; margin-top: 20px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.1); }
+            nav.active { display: flex; }
+            .container { margin: 30px 15px; padding: 20px; }
+            h2 { font-size: 1.6em; }
+            table, thead, tbody, th, td, tr { display: block; }
+            thead tr { display: none; }
+            tr { margin-bottom: 20px; border: 1px solid #eee; border-radius: 8px; padding: 15px; background: #fff; }
+            td { border: none; padding: 8px 0; display: flex; justify-content: space-between; align-items: center; }
+            td::before { content: attr(data-label); font-weight: 600; color: var(--text-muted); }
+            .actions { flex-direction: column; width: 100%; }
+            .actions a { width: 100%; text-align: center; box-sizing: border-box; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="/" class="logo">💎 BİTAKICI</a>
+        <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+        <nav id="nav-menu">
+            <a href="/">Anasayfa</a>
+            <a href="/urunler">Koleksiyon</a>
+            <a href="/hakkimizda">Hakkımızda</a>
+            <a href="/iletisim">İletişim</a>
+            <a href="/sepet" class="cart-btn">Sepet ({{ toplam_urun }})</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h2>Alışveriş Sepetiniz</h2>
+        
+        {% if sepet_urunler %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Ürün Adı</th>
+                        <th>Adet</th>
+                        <th>Fiyat</th>
+                        <th>Toplam</th>
+                        <th>İşlem</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for urun in sepet_urunler %}
+                    <tr>
+                        <td data-label="Ürün Adı: ">{{ urun['ad'] }}</td>
+                        <td data-label="Adet: ">{{ urun['adet'] }} Adet</td>
+                        <td data-label="Fiyat: ">{{ "%.2f"|format(urun['fiyat']) }} TL</td>
+                        <td data-label="Toplam: ">{{ "%.2f"|format(urun['ara_toplam']) }} TL</td>
+                        <td data-label="İşlem: ">
+                            <a href="/sepetten-cikar/{{ urun['id'] }}" class="delete-btn" title="Ürünü Sil">🗑️ Kaldır</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <div class="total">
+                Toplam Tutar: <span>{{ "%.2f"|format(toplam_fiyat) }} TL</span>
+            </div>
+
+            <div class="actions">
+                <a href="/sepeti-bosalt" class="btn-danger">Sepeti Boşalt</a>
+                <a href="/odeme" class="btn-success">Siparişi Tamamla</a>
+            </div>
+        {% else %}
+            <div class="empty-cart">
+                <p>Sepetinizde henüz ürün bulunmuyor.</p>
+                <a href="/urunler" class="btn-success" style="display:inline-block; margin-top:15px; text-decoration:none; padding:10px 25px;">Koleksiyona Göz At</a>
+            </div>
+        {% endif %}
+    </div>
+
+    <footer>
+        <p>&copy; 2026 BiTakıcı & Aksesuar. Tüm hakları saklıdır.</p>
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            const menu = document.getElementById('nav-menu');
+            menu.classList.toggle('active');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>İletişim - BiTakıcı</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,500;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-dark: #0f0f0f;
+            --accent-gold: #c5a059;
+            --accent-gold-hover: #b08d46;
+            --bg-color: #faf9f6;
+            --card-bg: #ffffff;
+            --text-main: #2c2c2c;
+            --text-muted: #777777;
+        }
+
+        body { font-family: 'Inter', sans-serif; margin: 0; padding: 0; background-color: var(--bg-color); color: var(--text-main); }
+        
+        header { background-color: var(--primary-dark); color: #fff; padding: 20px 40px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(197, 160, 89, 0.3); position: sticky; top: 0; z-index: 100; backdrop-filter: blur(10px); }
+        .logo { font-family: 'Playfair Display', serif; font-size: 1.5em; font-weight: 600; letter-spacing: 2px; color: var(--accent-gold); text-decoration: none; display: flex; align-items: center; gap: 8px; }
+        
+        nav { display: flex; gap: 20px; align-items: center; }
+        nav a { color: #d1d1d1; text-decoration: none; font-size: 0.9em; font-weight: 400; transition: color 0.3s ease; }
+        nav a:hover, nav a.active { color: var(--accent-gold); }
+        .cart-btn { background-color: var(--accent-gold); color: #fff; padding: 8px 16px; border-radius: 30px; font-weight: 500; font-size: 0.85em; transition: background 0.3s ease, transform 0.2s ease; }
+        .cart-btn:hover { background-color: var(--accent-gold-hover); transform: translateY(-2px); color: #fff; }
+
+        .menu-toggle { display: none; background: none; border: none; color: var(--accent-gold); font-size: 1.8em; cursor: pointer; }
+
+        .container { max-width: 800px; margin: 60px auto; padding: 40px; background: var(--card-bg); border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.03); line-height: 1.8; border: 1px solid #eee; box-sizing: border-box; }
+        h2 { font-family: 'Playfair Display', serif; color: var(--primary-dark); border-bottom: 2px solid var(--accent-gold); padding-bottom: 12px; margin-top: 0; font-size: 2em; font-weight: 500; }
+        p { color: var(--text-muted); font-size: 1.05em; font-weight: 300; }
+        .info-box { background: #faf8f3; border-left: 4px solid var(--accent-gold); padding: 20px; margin-top: 25px; border-radius: 0 8px 8px 0; }
+        .info-box p { margin: 8px 0; color: var(--text-main); }
+        
+        footer { background-color: var(--primary-dark); color: #888; text-align: center; padding: 30px; margin-top: 100px; font-size: 0.85em; border-top: 1px solid rgba(255,255,255,0.05); }
+        footer p { margin: 0; letter-spacing: 1px; }
+
+        @media (max-width: 768px) {
+            header { padding: 15px 20px; flex-wrap: wrap; }
+            .menu-toggle { display: block; }
+            nav { display: none; width: 100%; flex-direction: column; align-items: center; gap: 15px; margin-top: 20px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.1); }
+            nav.active { display: flex; }
+            .container { margin: 30px 15px; padding: 25px; }
+            h2 { font-size: 1.6em; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="/" class="logo">💎 BİTAKICI</a>
+        <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+        <nav id="nav-menu">
+            <a href="/">Anasayfa</a>
+            <a href="/urunler">Koleksiyon</a>
+            <a href="/hakkimizda">Hakkımızda</a>
+            <a href="/iletisim" class="active">İletişim</a>
+            <a href="/sepet" class="cart-btn">Sepet ({{ toplam_urun }})</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h2>İletişim Bilgileri</h2>
+        <p>Sorularınız, önerileriniz veya sipariş destek talepleriniz için bizimle her zaman iletişime geçebilirsiniz.</p>
+        
+        <div class="info-box">
+            <p><strong>E-posta:</strong> destek@bitakici.com</p>
+            <p><strong>Telefon:</strong> +90 (555) 123 45 67</p>
+            <p><strong>Adres:</strong> Nişantaşı Mah. Şıklık Cad. No: 34, İstanbul</p>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 BiTakıcı & Aksesuar. Tüm hakları saklıdır.</p>
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            const menu = document.getElementById('nav-menu');
+            menu.classList.toggle('active');
+        }
+    </script>
+</body>
+</html>

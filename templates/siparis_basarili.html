@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sipariş Başarılı - BiTakıcı</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,500;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-dark: #0f0f0f;
+            --accent-gold: #c5a059;
+            --accent-gold-hover: #b08d46;
+            --bg-color: #faf9f6;
+            --card-bg: #ffffff;
+            --text-main: #2c2c2c;
+            --text-muted: #777777;
+        }
+
+        body { font-family: 'Inter', sans-serif; margin: 0; padding: 0; background-color: var(--bg-color); color: var(--text-main); display: flex; flex-direction: column; min-height: 100vh; }
+        
+        header { background-color: var(--primary-dark); color: #fff; padding: 20px 40px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(197, 160, 89, 0.3); }
+        .logo { font-family: 'Playfair Display', serif; font-size: 1.5em; font-weight: 600; letter-spacing: 2px; color: var(--accent-gold); text-decoration: none; display: flex; align-items: center; gap: 8px; }
+        
+        nav { display: flex; gap: 20px; align-items: center; }
+        nav a { color: #d1d1d1; text-decoration: none; font-size: 0.9em; font-weight: 400; }
+        .cart-btn { background-color: var(--accent-gold); color: #fff; padding: 8px 16px; border-radius: 30px; font-weight: 500; font-size: 0.85em; }
+
+        .container { max-width: 600px; margin: 80px auto; padding: 50px 30px; background: var(--card-bg); border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.03); border: 1px solid #eee; text-align: center; box-sizing: border-box; width: 100%; }
+        .success-icon { font-size: 3.5em; color: #5cb85c; margin-bottom: 15px; }
+        h2 { font-family: 'Playfair Display', serif; color: var(--primary-dark); margin-top: 0; font-size: 2.2em; font-weight: 500; margin-bottom: 15px; }
+        p { color: var(--text-muted); font-size: 1.05em; line-height: 1.6; margin-bottom: 15px; }
+        .payment-info { background: #faf8f3; padding: 12px; border-radius: 6px; border: 1px solid rgba(197, 160, 89, 0.2); font-weight: 500; color: var(--primary-dark); margin-bottom: 30px; }
+        
+        .btn-home { background-color: var(--primary-dark); color: var(--accent-gold); border: 1px solid var(--accent-gold); padding: 12px 30px; border-radius: 8px; text-decoration: none; font-weight: 600; display: inline-block; transition: all 0.3s; }
+        .btn-home:hover { background-color: var(--accent-gold); color: #fff; }
+
+        footer { background-color: var(--primary-dark); color: #888; text-align: center; padding: 30px; margin-top: auto; font-size: 0.85em; border-top: 1px solid rgba(255,255,255,0.05); }
+        footer p { margin: 0; letter-spacing: 1px; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="/" class="logo">💎 BİTAKICI</a>
+        <nav>
+            <a href="/">Anasayfa</a>
+            <a href="/urunler">Koleksiyon</a>
+            <a href="/hakkimizda">Hakkımızda</a>
+            <a href="/iletisim">İletişim</a>
+            <a href="/sepet" class="cart-btn">Sepet ({{ toplam_urun }})</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <div class="success-icon">✨</div>
+        <h2>Siparişiniz Alındı!</h2>
+        <p>Sayın <strong>{{ ad_soyad }}</strong>, siparişiniz başarıyla oluşturulmuştur.</p>
+        
+        <div class="payment-info">
+            Ödeme Yöntemi: <strong>{{ odeme_tipi }}</strong>
+        </div>
+
+        <p style="font-size: 0.9em; color: var(--text-muted);">BiTakıcı'yı tercih ettiğiniz için teşekkür ederiz!</p>
+        <a href="/" class="btn-home">Alışverişe Devam Et</a>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 BiTakıcı & Aksesuar. Tüm hakları saklıdır.</p>
+    </footer>
+</body>
+</html>
